@@ -13,15 +13,13 @@ contract ERC20 is IERC20 {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    constructor(string memory name_, string memory symbol_, uint256 initialSupply) {
-        name = name_;
-        symbol = symbol_;
-        _totalSupply = initialSupply;
-        _balances[msg.sender] = initialSupply;
-        emit Transfer(address(0), msg.sender, initialSupply);
+    constructor(uint256 initialSupply) {
+        name = "SARACOIN";
+        symbol = "SC";
+        _totalSupply = initialSupply * 10 ** uint256(decimals);
+        _balances[msg.sender] = _totalSupply;
+        emit Transfer(address(0), msg.sender, _totalSupply);
     }
-
-    /* IERC20 implementation */
 
     function totalSupply() external view override returns (uint256) {
         return _totalSupply;
@@ -53,7 +51,6 @@ contract ERC20 is IERC20 {
         return true;
     }
 
-    /* Internal helpers */
     function _transfer(address from, address to, uint256 value) internal {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
